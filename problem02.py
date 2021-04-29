@@ -12,5 +12,6 @@ def r_search(start, end, guesses):
     if check == 'higher':
         return r_search(mid, end, guesses -1)
 
-
 r_search(0, 100, 7)
+
+# Note to self
