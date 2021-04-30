@@ -14,4 +14,4 @@ def r_search(start, end, guesses):
 
 r_search(0, 100, 7)
 
-# Just kidding no note here
+# Haha, jk again
