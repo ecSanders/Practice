@@ -12,7 +12,7 @@ import time
 
 # Set up
 my_list = []
-for i in range(1000):
+for i in range(100000):
   my_list.append(random.randint(1,10000))
 
 # Linear Search
@@ -39,12 +39,15 @@ def binary_search(my_list, target):
     return binary_search(my_list[mid:], target)
 
 my_list.sort()
+
+# Linear Test
 l_start = time.time()
 for i in range(1000):
   target = random.randint(1,10000)
   linear_search(my_list, target)
 l_end = time.time()
 
+# Binary Test
 b_start = time.time()
 for i in range(1000):
   target = random.randint(1,10000)
