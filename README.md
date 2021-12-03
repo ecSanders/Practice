@@ -1,2 +1,3 @@
 # Practice
-> __This is a collection of exercises done in python.  These are done just to keep the coding fresh.__
+
+This repository is a collection of simple problems that I have either solved, am solving, or will solve. If you have a problem you would like me to solve, please make a pull request.
