@@ -1,27 +1,205 @@
+'''
+Author: Erik Sanders
+Company: Self
+Date: 1/27/2022
+Status: Complete
+
+Description:
+This was a tutorial that I followed to learn more about contour in the 
+context of object detection. Here is the link you are interested:
+
+https://learnopencv.com/contour-detection-using-opencv-python-c/
+'''
+
+
+
+
+
+
+
+
+
+################################
+#           SETUP              #
+################################
+
 #%% Import libraries
 import numpy as np
 import cv2 as cv
-from urllib.request import urlopen
 
-#%% Load image
-url = 'https://customers.pyimagesearch.com/wp-content/uploads/2015/06/wynn.png'
-request = urlopen(url)
-arr = np.asarray(bytearray(request.read()), dtype=np.uint8)
-img = cv.imdecode(arr, -1)
+#%% Load image and display image
+img = cv.imread('images/T.jpg')
+cv.imshow('T - original', img)
+cv.waitKey(0)
+cv.destroyAllWindows()
 
-#%% Get contours
-imgray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-ret, thresh = cv.threshold(imgray, 127, 255, 0)
-contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+#%% Scale image (too big)
+percent_scale = 35
+width = int(img.shape[1] * percent_scale / 100)
+height = int(img.shape[0] * percent_scale / 100)
+dim = (width, height)
 
-#%% Draw contours
-all_contour = cv.drawContours(imgray, contours, -1, (0,255,0), 3)
-indvdl_contour = cv.drawContours(imgray, contours, 3, (0,255,0), 3)
-cnt = contours[4]
-best = cv.drawContours(imgray, [cnt], 0, (0,255,0), 1)
+scaled = cv.resize(img, dim, interpolation=cv.INTER_AREA)
 
-#%% Display contoured image
-cv.imshow('grayscaled',best)
+cv.imshow('T - Scaled', scaled)
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##################################
+#        CONTOUR COLOR           #
+##################################
+
+#%% Split colors 
+b,g,r = cv.split(scaled)
+
+cv.imshow('T - blue(all)', b)
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+#%% Blue contour
+blue_cont, b_hierarchy = cv.findContours(b, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
+blue = scaled.copy()
+cv.drawContours(blue, blue_cont, -1, (0, 255, 0), 2, lineType=cv.LINE_AA)
+
+# Display
+
+cv.imshow('T - blue(contoured)', blue)
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+#%% Green Contour
+green_cont, g_hierarchy = cv.findContours(g,cv.RETR_TREE,cv.CHAIN_APPROX_NONE)
+green = scaled.copy()
+cv.drawContours(green, green_cont, -1, (0,255,0), 2, lineType=cv.LINE_AA)
+
+# Display
+
+cv.imshow('T - green(contoured)', green)
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+
+#%% Red contour
+red_cont, r_hierarchy = cv.findContours(r,cv.RETR_TREE,cv.CHAIN_APPROX_NONE)
+red = scaled.copy()
+cv.drawContours(red, red_cont, -1, (0,255,0), 2, lineType=cv.LINE_AA)
+
+# Display
+cv.imshow('T - red(contoured)', red)
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+
+
+
+
+
+
+
+
+
+
+##################################
+#     CONTOUR -(SIMPLE/NONE)     #
+##################################
+
+#%% CHAIN_APPROX_SIMPLE
+img_simple = scaled.copy()
+imgray = cv.cvtColor(img_simple, cv.COLOR_BGR2GRAY)
+ret, thresh = cv.threshold(imgray, 150, 255, cv.THRESH_BINARY)
+binary_cont, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+cv.drawContours(img_simple, binary_cont, -1, (0,255,0), 2, cv.LINE_AA)
+
+cv.imshow('T - SIMPLE',img_simple)
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+#%% CHAIN_APPROX_NONE
+img_none = scaled.copy()
+imgray = cv.cvtColor(img_none, cv.COLOR_BGR2GRAY)
+ret, thresh = cv.threshold(imgray, 150, 255, cv.THRESH_BINARY)
+binary_cont, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+cv.drawContours(img_none, binary_cont, -1, (0,255,0), 2, cv.LINE_AA)
+
+cv.imshow('T - NONE',img_none)
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#############################
+#    HIERARCHY RETRIEVAL    #
+#############################
+
+#%% RETR_LIST
+list_img = scaled.copy()
+imgray = cv.cvtColor(list_img, cv.COLOR_BGR2GRAY)
+ret, thresh = cv.threshold(imgray, 150, 255, cv.THRESH_BINARY)
+list_cont, hierarchy = cv.findContours(thresh, cv.RETR_LIST, cv.CHAIN_APPROX_NONE)
+cv.drawContours(list_img, list_cont, -1, (0,255,0), 2, cv.LINE_AA)
+
+cv.imshow('T - LIST', list_img)
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+#%% RETR_EXTERNAL 
+external_img = scaled.copy()
+imgray = cv.cvtColor(external_img, cv.COLOR_BGR2GRAY)
+ret, thresh = cv.threshold(imgray, 150, 255, cv.THRESH_BINARY)
+external_cont, hierarchy = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
+cv.drawContours(external_img, external_cont, -1, (0,255,0), 2, cv.LINE_AA)
+
+cv.imshow('T - EXTERNAL', external_img)
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+#%% RETR_CCOMP
+ccomp_img = scaled.copy()
+imgray = cv.cvtColor(ccomp_img, cv.COLOR_BGR2GRAY)
+ret, thresh = cv.threshold(imgray, 150, 255, cv.THRESH_BINARY)
+ccomp_cont, hierarchy = cv.findContours(thresh, cv.RETR_CCOMP, cv.CHAIN_APPROX_NONE)
+cv.drawContours(ccomp_img, ccomp_cont, -1, (0,255,0), 2, cv.LINE_AA)
+
+cv.imshow('T - CCOMP', ccomp_img)
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+#%% RETR_TREE
+tree_img = scaled.copy()
+imgray = cv.cvtColor(tree_img, cv.COLOR_BGR2GRAY)
+ret, thresh = cv.threshold(imgray, 150, 255, cv.THRESH_BINARY)
+tree_cont, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
+cv.drawContours(tree_img, tree_cont, -1, (0,255,0), 2, cv.LINE_AA)
+
+cv.imshow('T - TREE', tree_img)
 cv.waitKey(0)
 cv.destroyAllWindows()
 # %%
