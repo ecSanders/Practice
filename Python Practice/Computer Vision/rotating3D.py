@@ -15,7 +15,7 @@ arr = np.asarray(bytearray(request.read()), dtype=np.uint8)
 img = cv.imdecode(arr, -1)
 
 #%% Grab some imformation
-roi = [127, 372, 321, 455]
+
 depth = 3 # We'll just assign one
 h,w,channel = img.shape
 
