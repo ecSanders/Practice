@@ -28,13 +28,13 @@ import numpy as np
 import cv2 as cv
 
 #%% Load image and display image
-img = cv.imread('images/T.jpg')
+img = cv.imread('images/mrcnn_pred.png')
 cv.imshow('T - original', img)
 cv.waitKey(0)
 cv.destroyAllWindows()
 
 #%% Scale image (too big)
-percent_scale = 35
+percent_scale = 100
 width = int(img.shape[1] * percent_scale / 100)
 height = int(img.shape[0] * percent_scale / 100)
 dim = (width, height)
@@ -203,3 +203,32 @@ cv.imshow('T - TREE', tree_img)
 cv.waitKey(0)
 cv.destroyAllWindows()
 # %%
+
+
+
+#########################
+#       EXTRA           #
+#########################
+
+# #%% Run Sobel edge detection
+# sobelx = cv.Sobel(src=img_blur, ddepth=cv.CV_64F, dx=1, dy=0, ksize=5) # Sobel Edge Detection on the X axis
+# sobely = cv.Sobel(src=img_blur, ddepth=cv.CV_64F, dx=0, dy=1, ksize=5) # Sobel Edge Detection on the Y axis
+# sobelxy = cv.Sobel(src=img_blur, ddepth=cv.CV_64F, dx=1, dy=1, ksize=5) # Combined X and Y Sobel Edge Detection
+
+# # Display Sobel Edge Detection Images
+# cv.imshow('Sobel X', sobelx)
+# cv.waitKey(0)
+# cv.imshow('Sobel Y', sobely)
+# cv.waitKey(0)
+# cv.imshow('Sobel X Y using Sobel() function', sobelxy)
+# cv.waitKey(0)
+# cv.destroyAllWindows()
+
+
+# #%% Sharpen
+# kernel = np.array([[-1,-1,-1], [-1,8,-1], [-1,-1,-1]])
+# im = cv.filter2D(imgray, -1, kernel)
+
+# cv.imshow('T - sharpened', im)
+# cv.waitKey(0)
+# cv.destroyAllWindows()
