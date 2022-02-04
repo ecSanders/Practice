@@ -28,7 +28,7 @@ import numpy as np
 import cv2 as cv
 
 #%% Load image and display image
-img = cv.imread('images/mrcnn_pred.png')
+img = cv.imread('images/mrcnn_pred01.png')
 cv.imshow('T - original', img)
 cv.waitKey(0)
 cv.destroyAllWindows()
