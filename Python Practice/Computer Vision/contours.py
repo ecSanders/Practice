@@ -28,7 +28,7 @@ import numpy as np
 import cv2 as cv
 
 #%% Load image and display image
-img = cv.imread('images/mrcnn_pred01.png')
+img = cv.imread('images/hot_knife.jpg')
 cv.imshow('T - original', img)
 cv.waitKey(0)
 cv.destroyAllWindows()
@@ -232,3 +232,5 @@ cv.destroyAllWindows()
 # cv.imshow('T - sharpened', im)
 # cv.waitKey(0)
 # cv.destroyAllWindows()
+# %%
+ 
